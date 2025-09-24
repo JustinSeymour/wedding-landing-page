@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>View PDF • Add to Calendar</title>
+    <meta
+      name="description"
+      content="Embed a PDF and let visitors add an event with the link to their calendar."
+    />
+    <style>
+      :root {
+        --bg: #0b0b10;
+        --panel: #11131a;
+        --muted: #a7b0c0;
+        --text: #e9eef7;
+        --brand: #7c9cff;
+        --brand-2: #91f2c3;
+        --radius: 16px;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, var(--bg), #0f1220);
+        color: var(--text);
+        font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Ubuntu,
+          'Helvetica Neue', Arial;
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 32px auto;
+        padding: 0 16px;
+      }
+
+      .card {
+        background: linear-gradient(180deg, #0f1220 0%, #0c0f1a 100%);
+        border: 1px solid #1c2030;
+        border-radius: var(--radius);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+        overflow: hidden;
+      }
+      .hdr {
+        padding: 16px 18px;
+        border-bottom: 1px solid #1c2030;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .hdr svg {
+        flex: 0 0 auto;
+      }
+      .hdr h1 {
+        font-size: 18px;
+        line-height: 1.2;
+        margin: 0;
+        font-weight: 650;
+      }
+      #heroImg {
+        display: block;
+        width: 100%;
+        height: auto;
+        background: #0a0d18;
+        border-bottom: 1px solid #1c2030;
+      }
+      .fallback {
+        padding: 14px 18px;
+        border-top: 1px dashed #23283b;
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px;
+        border-top: 1px solid #1c2030;
+        background: linear-gradient(180deg, #0c0f1a, #0a0d18);
+        justify-content: center;
+      }
+
+      .btn {
+        appearance: none;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.06s ease, box-shadow 0.2s ease;
+        background: #1a2040;
+        color: #e9eef7;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(124, 156, 255, 0.18);
+      }
+      .btn.brand {
+        background: linear-gradient(135deg, var(--brand), #6ab7ff 60%)
+          center/200% 200%;
+      }
+      .btn.ghost {
+        background: #12162a;
+        color: #c9d3e3;
+        border: 1px solid #242a44;
+      }
+
+      .meta {
+        padding: 16px 18px;
+        color: #c5cede;
+        font-size: 14px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .kv {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: #a7b0c0;
+      }
+      .kv b {
+        color: #e6ecf9;
+      }
+
+      .notice {
+        margin: 16px auto 0;
+        max-width: 960px;
+        color: #a7b0c0;
+        font-size: 13px;
+        text-align: center;
+      }
+      a {
+        color: #9ac3ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <div class="hdr">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4c0-1.1.9-2 2-2Z"
+              stroke="#9ac3ff"
+              stroke-width="1.5"
+            />
+            <path
+              d="M15 2v4a1 1 0 0 0 1 1h4"
+              stroke="#9ac3ff"
+              stroke-width="1.5"
+            />
+            <path d="M7.5 12h9M7.5 16h6" stroke="#9ac3ff" stroke-width="1.5" />
+          </svg>
+          <h1 id="pageTitle">Document</h1>
+        </div>
+
+        <img id="heroImg" alt="Save the date" />
+
+        <div class="meta" id="meta"></div>
+
+        <div class="rsvp" style="text-align: center; width: 100%">
+          <a
+            class="btn brand"
+            href="https://calendar.google.com/calendar/u/0/share?slt=1AWn26rOkZHDWjx0Xhg2zSeueX5aFbjh2JT4hT5BrT-UYWdcFN3xgK6TEjDmQWhBDrpElJVTeGyCMjg"
+            target="_blank"
+          >
+            RSVP here!
+          </a>
+        </div>
+
+        <br />
+        <p style="text-align: center; width: 100%">
+          - Or, add custom date to your calendar! -
+        </p>
+
+        <div class="actions">
+          <button class="btn brand" id="addIcs">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                x="3"
+                y="4"
+                width="18"
+                rx="3"
+                stroke="#fff"
+                stroke-width="1.5"
+              />
+              <path
+                d="M8 2v4M16 2v4M3 10h18"
+                height="17"
+                rx="3"
+                stroke="#fff"
+                stroke-width="1.5"
+              />
+              <path
+                d="M8 2v4M16 2v4M3 10h18"
+                stroke="#fff"
+                stroke-width="1.5"
+              />
+              <path d="M12 14v6M9 17h6" stroke="#fff" stroke-width="1.5" />
+            </svg>
+            Add to Calendar (.ics)
+          </button>
+          <a class="btn ghost" id="addGoogle" target="_blank" rel="noopener"
+            >Google Calendar</a
+          >
+          <a class="btn ghost" id="addOutlook" target="_blank" rel="noopener"
+            >Outlook / Office</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // --- Config via query params or defaults ---
+      const qp = new URLSearchParams(location.search);
+      const def = (k, v) => qp.get(k) || v;
+
+      // Default sample values (set to your real ones)
+      const DEFAULT_IMG = def('img', 'save-the-date.png');
+      const TITLE = def('title', "Meg & Andy's Wedding");
+      const START_LOCAL = def('start', '2026-09-24T12:00'); // next week 10:00 local
+      const END_LOCAL = def('end', '2026-09-24T23:00');
+      const LOCATION_TXT = def('location', 'TBC');
+      const DESC_TXT = def('desc', `Open the image: ${DEFAULT_IMG}`);
+
+      // --- Image display ---
+      const heroImg = document.getElementById('heroImg');
+      const pageTitle = document.getElementById('pageTitle');
+
+      pageTitle.textContent = TITLE;
+
+      heroImg.loading = 'lazy';
+      heroImg.decoding = 'async';
+      heroImg.src = DEFAULT_IMG;
+      heroImg.alt = TITLE;
+
+      // --- Event meta display ---
+      const meta = document.getElementById('meta');
+      const fmt = new Intl.DateTimeFormat(undefined, {
+        dateStyle: 'full',
+        timeStyle: 'short',
+      });
+      const startDate = parseLocalISO(START_LOCAL);
+      const endDate = parseLocalISO(END_LOCAL);
+      meta.innerHTML = `
+      <div class="kv"><b>Title:</b> <span>${escapeHtml(TITLE)}</span></div>
+      <div class="kv"><b>When:</b> <span>${fmt.format(
+        startDate
+      )} – ${fmt.format(endDate)}</span></div>
+      ${
+        LOCATION_TXT
+          ? `<div class=\"kv\"><b>Location:</b> <span>${escapeHtml(
+              LOCATION_TXT
+            )}</span></div>`
+          : ''
+      }
+    `;
+
+      // --- Add to Calendar handlers ---
+      document.getElementById('addIcs').addEventListener('click', () => {
+        const ics = buildICS({
+          title: TITLE,
+          start: startDate,
+          end: endDate,
+          description: DESC_TXT,
+          location: LOCATION_TXT,
+          url: DEFAULT_IMG,
+        });
+        const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = safeFilename(`${TITLE}.ics`);
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+      });
+
+      // Google Calendar deep link
+      const gHref = googleCalUrl({
+        title: TITLE,
+        start: startDate,
+        end: endDate,
+        details: DESC_TXT + '\n\n' + DEFAULT_IMG,
+        location: LOCATION_TXT,
+      });
+      document.getElementById('addGoogle').href = gHref;
+
+      // Outlook / Office deep link
+      const oHref = outlookCalUrl({
+        title: TITLE,
+        start: startDate,
+        end: endDate,
+        body: DESC_TXT + '\n\n' + DEFAULT_IMG,
+        location: LOCATION_TXT,
+      });
+      document.getElementById('addOutlook').href = oHref;
+
+      // --- Helpers ---
+      function buildICS({ title, start, end, description, location, url }) {
+        const dtstamp = toICS(new Date());
+        const dtStart = toICS(start);
+        const dtEnd = toICS(end);
+        const uid = crypto.randomUUID
+          ? crypto.randomUUID()
+          : 'id-' + Math.random().toString(36).slice(2);
+
+        // Fold long lines at 75 octets with a single space continuation (simple approach below)
+        const ICS = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//Dev Shack//QR PDF Event//EN',
+          'CALSCALE:GREGORIAN',
+          'METHOD:PUBLISH',
+          'BEGIN:VEVENT',
+          `UID:${uid}@devshack.local`,
+          `DTSTAMP:${dtstamp}`,
+          `DTSTART:${dtStart}`,
+          `DTEND:${dtEnd}`,
+          wrap(`SUMMARY:${title}`),
+          location ? wrap(`LOCATION:${location}`) : null,
+          wrap(`DESCRIPTION:${description || ''}${url ? `\\n\\n${url}` : ''}`),
+          url ? wrap(`URL:${url}`) : null,
+          'END:VEVENT',
+          'END:VCALENDAR',
+        ]
+          .filter(Boolean)
+          .join('\r\n');
+        return ICS + '\r\n';
+      }
+
+      function googleCalUrl({ title, start, end, details, location }) {
+        const fmt = (d) =>
+          encodeURIComponent(d.toISOString().replace(/[-:]|\.\d{3}/g, ''));
+        const params = new URLSearchParams({
+          action: 'TEMPLATE',
+          text: title,
+          dates: `${fmt(start)}/${fmt(end)}`,
+        });
+        if (details) params.set('details', details);
+        if (location) params.set('location', location);
+        return `https://calendar.google.com/calendar/render?${params.toString()}`;
+      }
+
+      function outlookCalUrl({ title, start, end, body, location }) {
+        const params = new URLSearchParams({
+          path: '/calendar/action/compose',
+          rru: 'addevent',
+          subject: title,
+          startdt: start.toISOString(),
+          enddt: end.toISOString(),
+        });
+        if (body) params.set('body', body);
+        if (location) params.set('location', location);
+        return `https://outlook.live.com/calendar/0/deeplink/compose?${params.toString()}`;
+      }
+
+      function toICS(date) {
+        // UTC Zulu format YYYYMMDDTHHMMSSZ
+        const z = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+        return z
+          .toISOString()
+          .replace(/[-:]|\.\d{3}/g, '')
+          .replace('000Z', '00Z'); // keep seconds
+      }
+
+      function parseLocalISO(isoLike) {
+        // Accept: "YYYY-MM-DDTHH:mm" or any ISO; if no timezone, treat as local and keep local time
+        if (!isoLike) return new Date();
+        if (/Z|[+-]\d{2}:?\d{2}$/.test(isoLike)) return new Date(isoLike);
+        const [d, t = '00:00'] = isoLike.split('T');
+        const [y, m, day] = d.split('-').map(Number);
+        const [hh, mm = 0, ss = 0] = t.split(':').map(Number);
+        return new Date(y, m - 1, day, hh, mm, ss);
+      }
+
+      function nextWeekAtLocalTimeISO(hour) {
+        const now = new Date();
+        const d = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate() + 7,
+          hour,
+          0,
+          0
+        );
+        return d.toISOString().slice(0, 16); // YYYY-MM-DDTHH:mm
+      }
+
+      function addHoursISO(isoStart, hours) {
+        const d = parseLocalISO(isoStart);
+        d.setHours(d.getHours() + (hours || 1));
+        return d.toISOString().slice(0, 16);
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])
+        );
+      }
+
+      function resolvePdfSources(url) {
+        try {
+          const u = new URL(url, location.href);
+          // Detect Google Drive file pattern and extract file id
+          // Accept /file/d/<id>/..., or direct uc?export=download&id=<id>
+          let id = null;
+          const m = u.pathname.match(/\/file\/d\/([^/]+)\/?.*/);
+          if (m) id = m[1];
+          if (
+            !id &&
+            u.hostname.includes('google') &&
+            u.searchParams.get('id')
+          ) {
+            id = u.searchParams.get('id');
+          }
+          if (id) {
+            return {
+              embedSrc: `https://drive.google.com/file/d/${id}/preview`,
+              downloadHref: `https://drive.google.com/uc?export=download&id=${id}`,
+            };
+          }
+          // Fallback to raw URL, append view param for native PDF viewers
+          return { embedSrc: url + '#view=FitH', downloadHref: url };
+        } catch {
+          return { embedSrc: url, downloadHref: url };
+        }
+      }
+
+      function wrap(line) {
+        // RFC5545 recommends folding at 75 octets. We'll do ~73 chars for simplicity.
+        const max = 73;
+        let out = '';
+        while (line.length > max) {
+          out += line.slice(0, max) + '\r\n ';
+          line = line.slice(max);
+        }
+        return out + line;
+      }
+
+      function safeFilename(name) {
+        return name.replace(/[\/:*?"<>|]+/g, '_').slice(0, 120);
+      }
+    </script>
+  </body>
+</html>
