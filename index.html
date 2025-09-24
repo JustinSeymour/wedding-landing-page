@@ -242,7 +242,7 @@
       const TITLE = def('title', "Meg & Andy's Wedding");
       const START_LOCAL = def('start', '2026-09-24T12:00'); // next week 10:00 local
       const END_LOCAL = def('end', '2026-09-24T23:00');
-      const LOCATION_TXT = def('location', 'TBC');
+      const LOCATION_TXT = def('location', 'Gauteng (Venue TBC)');
       const DESC_TXT = def('desc', `Open the image: ${DEFAULT_IMG}`);
 
       // --- Image display ---
@@ -266,9 +266,7 @@
       const endDate = parseLocalISO(END_LOCAL);
       meta.innerHTML = `
       <div class="kv"><b>Title:</b> <span>${escapeHtml(TITLE)}</span></div>
-      <div class="kv"><b>When:</b> <span>${fmt.format(
-        startDate
-      )} – ${fmt.format(endDate)}</span></div>
+      <div class="kv"><b>When:</b> <span>Thursday 26th of September 2026</span></div>
       ${
         LOCATION_TXT
           ? `<div class=\"kv\"><b>Location:</b> <span>${escapeHtml(
